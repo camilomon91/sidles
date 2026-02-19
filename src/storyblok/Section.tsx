@@ -14,7 +14,7 @@ type SectionProps = {
 
 export default function Section({ blok }: SectionProps) {
   const posterWord =
-    sectionPosterWords[Number.parseInt(blok._uid.slice(-1), 16) % sectionPosterWords.length] || "SHIP";
+    sectionPosterWords[Number.parseInt((blok._uid || "0").slice(-1), 16) % sectionPosterWords.length] || "SHIP";
 
   return (
     <section
