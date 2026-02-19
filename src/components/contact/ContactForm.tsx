@@ -4,6 +4,21 @@ import { useRef, useState } from "react";
 
 type FieldErrors = Partial<Record<"email" | "message", string[]>>;
 
+function validateField(name: "email" | "message", value: string) {
+  if (name === "email") {
+    const trimmed = value.trim();
+    if (!trimmed) return "Email is required";
+    if (!/^\S+@\S+\.\S+$/.test(trimmed)) return "Enter a valid email address";
+    return null;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) return "Message is required";
+  if (trimmed.length < 10) return "Message must be at least 10 characters";
+  if (trimmed.length > 1200) return "Message must be 1200 characters or less";
+  return null;
+}
+
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -12,11 +27,19 @@ export default function ContactForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
+  function setClientFieldError(name: "email" | "message", value: string) {
+    const maybeError = validateField(name, value);
+    setFieldErrors((prev) => ({
+      ...prev,
+      [name]: maybeError ? [maybeError] : undefined,
+    }));
+    return maybeError;
+  }
+
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("loading");
     setErrorMessage("");
-    setFieldErrors({});
 
     const form = new FormData(event.currentTarget);
     const payload = {
@@ -24,6 +47,17 @@ export default function ContactForm() {
       message: String(form.get("message") || ""),
       website: String(form.get("website") || ""),
     };
+
+    const emailError = setClientFieldError("email", payload.email);
+    const messageError = setClientFieldError("message", payload.message);
+
+    if (emailError || messageError) {
+      setStatus("error");
+      setErrorMessage("Please fix the highlighted fields.");
+      if (emailError) emailRef.current?.focus();
+      else messageRef.current?.focus();
+      return;
+    }
 
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -48,6 +82,7 @@ export default function ContactForm() {
     }
 
     event.currentTarget.reset();
+    setFieldErrors({});
     setStatus("ok");
   }
 
@@ -81,6 +116,7 @@ export default function ContactForm() {
             ref={emailRef}
             type="email"
             required
+            onBlur={(event) => setClientFieldError("email", event.target.value)}
             aria-invalid={Boolean(fieldErrors.email?.length)}
             aria-describedby={fieldErrors.email?.length ? "email-error" : undefined}
             className="min-h-12 rounded-2xl border-2 border-black bg-white px-4 text-base focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -101,6 +137,7 @@ export default function ContactForm() {
             name="message"
             ref={messageRef}
             required
+            onBlur={(event) => setClientFieldError("message", event.target.value)}
             aria-invalid={Boolean(fieldErrors.message?.length)}
             aria-describedby={fieldErrors.message?.length ? "message-error" : undefined}
             className="min-h-[180px] rounded-2xl border-2 border-black bg-white p-4 text-base focus-visible:outline-2 focus-visible:outline-offset-2"
