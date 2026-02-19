@@ -6,7 +6,7 @@ export default async function SidleePage() {
   const result = await getSidleeStory();
 
   if (!result.ok) {
-    return <StaticSidleeFallback />;
+    return <StaticSidleeFallback reason={result.reason} />;
   }
 
   return <StoryblokComponent blok={result.content} />;
