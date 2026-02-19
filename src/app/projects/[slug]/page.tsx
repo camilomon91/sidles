@@ -20,8 +20,8 @@ export default async function ProjectCaseStudyPage({ params }: { params: Promise
           <p className="mt-5 max-w-3xl text-lg font-medium">{project.result}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button href={project.liveUrl} variant="ghost">
-              Live
+            <Button href={project.pageUrl} variant="ghost">
+              Open page
             </Button>
             <Button href="/">Back home</Button>
           </div>

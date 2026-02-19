@@ -3,8 +3,7 @@ export type Project = {
   title: string;
   result: string;
   tags: string[];
-  liveUrl: string;
-  codeUrl?: string;
+  pageUrl: string;
   problem: string;
   approach: string;
   outcome: string;
@@ -17,8 +16,7 @@ export const projects: Project[] = [
     title: "SIDLEE Microsite",
     result: "Improved first-load clarity and made CMS failures degrade gracefully.",
     tags: ["CMS", "A11y", "Perf"],
-    liveUrl: "/sidlee",
-    codeUrl: "/projects/sidlee-microsite",
+    pageUrl: "/sidlee",
     problem: "Content editors needed autonomy without risking hard frontend crashes.",
     approach: "Built typed Storyblok boundaries, fallback states, and defensive API parsing.",
     outcome: "User-facing downtime became a soft degradation, not a blank page.",
@@ -29,8 +27,7 @@ export const projects: Project[] = [
     title: "Contact Flow",
     result: "Cut invalid submissions with server validation, honeypot, and rate limits.",
     tags: ["Full-stack", "A11y", "QA"],
-    liveUrl: "/sidlee/contact",
-    codeUrl: "/projects/contact-flow",
+    pageUrl: "/sidlee/contact",
     problem: "The original form accepted noisy input and gave weak feedback.",
     approach: "Implemented structured API errors, field-level a11y hints, and focus handling.",
     outcome: "More trustworthy submissions and better user confidence in send actions.",

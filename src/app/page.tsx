@@ -63,15 +63,10 @@ export default function Home() {
                 </div>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Button href={project.liveUrl} variant="ghost">
-                    Live
+                  <Button href={project.pageUrl} variant="ghost">
+                    Open page
                   </Button>
-                  {project.codeUrl ? (
-                    <Button href={project.codeUrl} variant="ghost">
-                      Code
-                    </Button>
-                  ) : null}
-                  <Button href={`/projects/${project.slug}`}>Case study</Button>
+                  <Button href={`/projects/${project.slug}`}>Read case study</Button>
                 </div>
               </Card>
             ))}
