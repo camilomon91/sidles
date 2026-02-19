@@ -19,6 +19,12 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -76,6 +82,7 @@ textarea {
 }
 
 .site-texture {
+  min-height: 100dvh;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
@@ -111,30 +118,61 @@ textarea {
 }
 
 html[data-brutal="on"] body {
-  --background: #090f1f;
-  --foreground: #f1f7ff;
-  --panel: #121a31;
-  --muted-panel: #1b2646;
-  --border: #7ed6ff;
-  filter: saturate(1.12) contrast(1.04);
+  --background: #050816;
+  --foreground: #eaf4ff;
+  --panel: #0b1227;
+  --muted-panel: #121c39;
+  --border: #63d5ff;
+  filter: saturate(1.16) contrast(1.06);
 }
 
 html[data-brutal="on"] .site-texture {
+  background-color: #050816;
   background-image:
-    linear-gradient(rgba(126, 214, 255, 0.24) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(126, 214, 255, 0.24) 1px, transparent 1px);
+    radial-gradient(circle at 20% 10%, rgba(98, 78, 255, 0.24), transparent 35%),
+    radial-gradient(circle at 80% 30%, rgba(0, 206, 255, 0.2), transparent 40%),
+    linear-gradient(rgba(99, 213, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 213, 255, 0.14) 1px, transparent 1px);
+  background-size: auto, auto, 32px 32px, 32px 32px;
 }
 
 html[data-brutal="on"] section,
 html[data-brutal="on"] article {
-  background: var(--panel) !important;
+  background: linear-gradient(160deg, rgba(12, 20, 44, 0.96), rgba(8, 14, 31, 0.94)) !important;
   border-color: var(--border) !important;
-  box-shadow: 0 0 0 1px rgba(126, 214, 255, 0.2), 0 18px 38px rgba(0, 0, 0, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(99, 213, 255, 0.25),
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+html[data-brutal="on"] h1,
+html[data-brutal="on"] h2,
+html[data-brutal="on"] h3,
+html[data-brutal="on"] p,
+html[data-brutal="on"] label,
+html[data-brutal="on"] li {
+  color: #eaf4ff !important;
+}
+
+html[data-brutal="on"] .section-kicker {
+  color: #87e6ff !important;
 }
 
 html[data-brutal="on"] button,
-html[data-brutal="on"] a {
+html[data-brutal="on"] a,
+html[data-brutal="on"] input,
+html[data-brutal="on"] textarea {
+  color: #eaf4ff !important;
   border-color: var(--border) !important;
+  background: #132043 !important;
+  box-shadow: 0 0 24px rgba(18, 150, 255, 0.2);
+}
+
+html[data-brutal="on"] button:hover,
+html[data-brutal="on"] a:hover {
+  background: #1a2d5c !important;
+  box-shadow: 0 0 28px rgba(99, 213, 255, 0.35);
 }
 
 @media (max-width: 768px) {
