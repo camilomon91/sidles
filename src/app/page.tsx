@@ -8,7 +8,7 @@ import { projects } from "@/lib/projects";
 export default function Home() {
   return (
     <main className="site-texture">
-      <div className="page-container py-10">
+      <div className="page-container space-y-10 py-10 md:space-y-14">
         <header className="section-space border-2 border-black bg-white p-6 md:p-10">
           <nav aria-label="Primary" className="mb-10 flex flex-wrap items-center justify-between gap-4">
             <p className="text-sm font-black uppercase tracking-[0.2em]">Sidlee • Experimental Bold</p>
@@ -66,9 +66,11 @@ export default function Home() {
                   <Button href={project.liveUrl} variant="ghost">
                     Live
                   </Button>
-                  <Button href={project.codeUrl} variant="ghost">
-                    Code
-                  </Button>
+                  {project.codeUrl ? (
+                    <Button href={project.codeUrl} variant="ghost">
+                      Code
+                    </Button>
+                  ) : null}
                   <Button href={`/projects/${project.slug}`}>Case study</Button>
                 </div>
               </Card>

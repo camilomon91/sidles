@@ -9,5 +9,11 @@ export default async function SidleePage() {
     return <StaticSidleeFallback reason={result.reason} />;
   }
 
-  return <StoryblokComponent blok={result.content} />;
+  return (
+    <main className="site-texture py-16 md:py-20">
+      <div className="page-container">
+        <StoryblokComponent blok={result.content} />
+      </div>
+    </main>
+  );
 }
