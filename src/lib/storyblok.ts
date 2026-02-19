@@ -2,11 +2,19 @@ import { z } from "zod";
 import { env } from "@/lib/env";
 import type { PageBlok } from "@/types/storyblok";
 
-const storySchema = z.object({
+const storyContentSchema = z.custom<PageBlok>((value) => typeof value === "object" && value !== null);
+
+const nestedDataResponseSchema = z.object({
   data: z.object({
     story: z.object({
-      content: z.custom<PageBlok>((value) => typeof value === "object" && value !== null),
+      content: storyContentSchema,
     }),
+  }),
+});
+
+const directResponseSchema = z.object({
+  story: z.object({
+    content: storyContentSchema,
   }),
 });
 
@@ -31,6 +39,16 @@ async function fetchWithTimeout(url: string, timeoutMs = 8000) {
   }
 }
 
+function parseStoryContent(payload: unknown): PageBlok | null {
+  const nested = nestedDataResponseSchema.safeParse(payload);
+  if (nested.success) return nested.data.data.story.content;
+
+  const direct = directResponseSchema.safeParse(payload);
+  if (direct.success) return direct.data.story.content;
+
+  return null;
+}
+
 async function fetchStory(version: "published" | "draft") {
   if (!env.NEXT_PUBLIC_STORYBLOK_TOKEN) {
     return { ok: false as const, reason: "missing-token" as StoryblokFailureReason };
@@ -52,17 +70,13 @@ async function fetchStory(version: "published" | "draft") {
     }
 
     const data = await response.json();
-    const parsed = storySchema.safeParse(data);
+    const content = parseStoryContent(data);
 
-    if (!parsed.success) {
+    if (!content) {
       return { ok: false as const, reason: "invalid-data" as StoryblokFailureReason };
     }
 
-    if (!parsed.data.data.story?.content) {
-      return { ok: false as const, reason: "missing-story" as StoryblokFailureReason };
-    }
-
-    return { ok: true as const, content: parsed.data.data.story.content };
+    return { ok: true as const, content };
   } catch {
     return { ok: false as const, reason: "network-error" as StoryblokFailureReason };
   }
