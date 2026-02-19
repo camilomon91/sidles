@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f7f2;
+  --foreground: #111111;
 }
 
 @theme inline {
@@ -12,15 +12,109 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.page-container {
+  @apply mx-auto w-full max-w-6xl px-6 md:px-10;
+}
+
+.grid-12 {
+  @apply grid grid-cols-1 md:grid-cols-12;
+}
+
+.section-space {
+  @apply py-16 md:py-24;
+}
+
+.section-kicker {
+  @apply text-sm font-black uppercase tracking-[0.2em];
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  line-height: 0.9;
+  @apply font-black;
+}
+
+.hero-watermark {
+  @apply pointer-events-none absolute -top-3 left-0 select-none text-[12vw] font-black leading-none text-black/5;
+}
+
+.underline-neon {
+  @apply decoration-lime-400 decoration-[0.15em] underline underline-offset-[0.12em];
+}
+
+.stamp {
+  @apply inline-block rounded-full border-2 border-black bg-white px-5 py-4 text-xs font-black uppercase tracking-[0.15em];
+  animation: spin-stamp 11s linear infinite;
+}
+
+.site-texture {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.motion-enter {
+  animation: fade-up 550ms ease-out both;
+}
+
+.animate-fade-up {
+  animation: fade-up 450ms ease-out both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin-stamp {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html[data-brutal="on"] body {
+  --background: #fdf300;
+}
+
+html[data-brutal="on"] .site-texture {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.16) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.16) 2px, transparent 2px);
+}
+
+@media (max-width: 768px) {
+  .hero-watermark {
+    font-size: 22vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
