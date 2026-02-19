@@ -1,14 +1,5 @@
 import { StoryblokComponent, storyblokEditable } from "@storyblok/react";
-
-type NestedBlok = {
-  _uid: string;
-};
-
-type SectionBlok = {
-  _uid: string;
-  heading?: string;
-  items?: NestedBlok[];
-};
+import type { SectionBlok } from "@/types/storyblok";
 
 export default function Section({ blok }: { blok: SectionBlok }) {
   return (

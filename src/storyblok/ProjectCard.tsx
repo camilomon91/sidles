@@ -1,21 +1,12 @@
 import { storyblokEditable } from "@storyblok/react";
-
-type ProjectCardBlok = {
-  _uid: string;
-  description?: string;
-  link?: {
-    url?: string;
-  };
-  name?: string;
-  stack?: string;
-};
+import type { ProjectCardBlok } from "@/types/storyblok";
 
 export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
   return (
     <a
       {...storyblokEditable(blok)}
       href={blok.link?.url || "#"}
-      className="block rounded-xl border p-5 transition hover:shadow-sm"
+      className="block rounded-xl border p-5 transition hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2"
     >
       <h3 className="text-lg font-semibold">{blok.name}</h3>
       <p className="mt-2 opacity-80">{blok.description}</p>

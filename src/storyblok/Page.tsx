@@ -1,13 +1,5 @@
 import { StoryblokComponent, storyblokEditable } from "@storyblok/react";
-
-type NestedBlok = {
-  _uid: string;
-};
-
-type PageBlok = {
-  _uid: string;
-  body?: NestedBlok[];
-};
+import type { PageBlok } from "@/types/storyblok";
 
 export default function Page({ blok }: { blok: PageBlok }) {
   return (

@@ -1,8 +1,8 @@
 import { apiPlugin, storyblokInit } from "@storyblok/react";
-import Hero from "@/features/storyblok/components/Hero";
-import Page from "@/features/storyblok/components/Page";
-import ProjectCard from "@/features/storyblok/components/ProjectCard";
-import Section from "@/features/storyblok/components/Section";
+import Hero from "@/storyblok/Hero";
+import Page from "@/storyblok/Page";
+import ProjectCard from "@/storyblok/ProjectCard";
+import Section from "@/storyblok/Section";
 
 let isInitialized = false;
 
