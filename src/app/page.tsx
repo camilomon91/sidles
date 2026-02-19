@@ -1,19 +1,23 @@
-import ScrollHeroBox from "@/components/home/ScrollHeroBox";
+import Button from "@/components/ui/Button";
 
 export default function Home() {
   return (
     <main className="site-texture py-16 md:py-24">
-      <div className="page-container space-y-16 md:space-y-24">
-        <ScrollHeroBox />
-
+      <div className="page-container">
         <section className="section-space border-2 border-black bg-white p-6 md:p-10">
-          <p className="section-kicker">Scroll narrative</p>
-          <h2 className="mt-3 text-4xl font-black leading-[0.95] md:text-5xl">
-            The center panel scales with scroll until it dominates the viewport.
-          </h2>
+          <p className="section-kicker">SIDLEE Microsite</p>
+          <h1 className="hero-title mt-4">Storyblok page + contact flow</h1>
           <p className="mt-6 max-w-3xl text-lg font-medium">
-            This gives a campaign-like entrance while keeping your real actions clear: SIDLEE page and contact form.
+            This app has two main routes: the Storyblok page at <strong>/sidlee</strong> and the contact form at
+            <strong> /sidlee/contact</strong>.
           </p>
+
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button href="/sidlee">Open SIDLEE page</Button>
+            <Button href="/sidlee/contact" variant="ghost">
+              Open contact form
+            </Button>
+          </div>
         </section>
       </div>
     </main>
