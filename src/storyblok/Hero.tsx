@@ -1,6 +1,16 @@
 import { storyblokEditable } from "@storyblok/react";
+import type { StoryblokBlok } from "./types";
 
-export default function Hero({ blok }: any) {
+type HeroBlok = StoryblokBlok & {
+  title?: string;
+  subtitle?: string;
+};
+
+type HeroProps = {
+  blok: HeroBlok;
+};
+
+export default function Hero({ blok }: HeroProps) {
   return (
     <section
       {...storyblokEditable(blok)}
