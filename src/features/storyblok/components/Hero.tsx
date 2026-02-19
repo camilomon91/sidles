@@ -1,6 +1,12 @@
 import { storyblokEditable } from "@storyblok/react";
 
-export default function Hero({ blok }: any) {
+type HeroBlok = {
+  _uid: string;
+  subtitle?: string;
+  title?: string;
+};
+
+export default function Hero({ blok }: { blok: HeroBlok }) {
   return (
     <section {...storyblokEditable(blok)} className="p-8">
       <h1 className="text-4xl font-bold">{blok.title}</h1>

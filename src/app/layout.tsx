@@ -1,5 +1,5 @@
 import "./globals.css";
-import { initStoryblok } from "@/lib/storyblok";
+import { initStoryblok } from "@/features/storyblok/lib/initStoryblok";
 
 initStoryblok();
 
