@@ -8,14 +8,17 @@ export default function Home() {
           <p className="section-kicker">SIDLEE Microsite</p>
           <h1 className="hero-title mt-4">Storyblok page + contact flow</h1>
           <p className="mt-6 max-w-3xl text-lg font-medium">
-            This app has two main routes: the Storyblok page at <strong>/sidlee</strong> and the contact form at
-            <strong> /sidlee/contact</strong>.
+            This app includes the Storyblok page at <strong>/sidlee</strong>, the contact form at
+            <strong> /sidlee/contact</strong>, and the email simulator at <strong>/sidlee/email</strong>.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <Button href="/sidlee">Open SIDLEE page</Button>
             <Button href="/sidlee/contact" variant="ghost">
               Open contact form
+            </Button>
+            <Button href="/sidlee/email" variant="ghost">
+              Open email simulator
             </Button>
           </div>
         </section>
