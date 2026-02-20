@@ -1,4 +1,5 @@
 import ContactForm from "@/components/contact/ContactForm";
+import CreativeBriefGenerator from "@/components/contact/CreativeBriefGenerator";
 
 export default function ContactPage() {
   return (
@@ -13,6 +14,8 @@ export default function ContactPage() {
             Tell me your goal, your constraints, and what success looks like. I&apos;ll reply with a sharp execution
             plan.
           </p>
+
+          <CreativeBriefGenerator />
           <ContactForm />
         </section>
       </div>
