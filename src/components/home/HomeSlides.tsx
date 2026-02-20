@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import Button from "@/components/ui/Button";
 
@@ -12,8 +12,15 @@ type Slide = {
 };
 
 const SCROLL_LOCK_CLASS = "overflow-hidden";
+const WHEEL_THRESHOLD = 16;
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
 
 export default function HomeSlides() {
+  const prefersReducedMotion = useReducedMotion();
+
   const slides = useMemo<Slide[]>(
     () => [
       {
@@ -28,27 +35,28 @@ export default function HomeSlides() {
         kicker: "Card 02",
         title: "Storyblok-driven components",
         description:
-          "Reusable Storyblok blocks power the hero, sections, and project cards while preserving visual mode behavior.",
+          "Reusable Storyblok blocks drive hero, sections, and project cards while keeping content controlled from the CMS.",
       },
       {
         id: "contact",
         kicker: "Card 03",
         title: "Fast lead capture",
-        description: "Validation and API handling keep the contact flow fast, resilient, and easy to complete.",
+        description:
+          "The contact flow is optimized for speed, with validation and backend handling that keeps drop-off low.",
       },
       {
         id: "aesthetic",
         kicker: "Card 04",
-        title: "Dual aesthetic modes",
+        title: "Dual visual identity",
         description:
-          "Clean and brutal modes alter visual tonality so the same content can feel editorial or neon-tech.",
+          "Clean mode feels editorial and warm, while brutal mode shifts into a neon-tech visual language instantly.",
       },
       {
         id: "motion",
         kicker: "Card 05",
-        title: "Motion-first experience",
+        title: "Floating motion narrative",
         description:
-          "Cards float, layer, and transition like a deck to create a tactile, modern narrative on the homepage.",
+          "Cards stack like a deck, slide in from the right, and push older cards upward to create a fluent reading rhythm.",
       },
     ],
     [],
@@ -66,60 +74,60 @@ export default function HomeSlides() {
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
-      if (locked) return;
-      if (Math.abs(event.deltaY) < 10) return;
+      if (locked || Math.abs(event.deltaY) < WHEEL_THRESHOLD) return;
 
-      const nextIndex = event.deltaY > 0 ? Math.min(index + 1, slides.length - 1) : Math.max(index - 1, 0);
+      const nextIndex = clamp(index + (event.deltaY > 0 ? 1 : -1), 0, slides.length - 1);
       if (nextIndex === index) return;
 
       locked = true;
       setIndex(nextIndex);
       window.setTimeout(() => {
         locked = false;
-      }, 520);
+      }, prefersReducedMotion ? 80 : 460);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [index, slides.length]);
+  }, [index, prefersReducedMotion, slides.length]);
 
   return (
     <main className="site-texture flex h-dvh items-center py-8">
       <div className="page-container w-full">
-        <section className="relative h-[560px] overflow-hidden rounded-3xl border-2 border-black bg-zinc-100/60 p-4 md:p-6">
-          <div className="relative h-full w-full [perspective:1300px]">
+        <section className="relative h-[560px] overflow-hidden rounded-[2rem] border-2 border-black bg-zinc-100/70 p-4 md:p-6">
+          <div className="relative h-full w-full" style={{ perspective: "1200px" }}>
             {slides.map((slide, slideIndex) => {
-              const relativeIndex = slideIndex - index;
-              const isPast = relativeIndex < 0;
-              const isActive = relativeIndex === 0;
+              const relative = slideIndex - index;
+              const isActive = relative === 0;
+              const isPast = relative < 0;
+              const depth = Math.min(Math.abs(relative), 4);
 
               return (
                 <motion.article
                   key={slide.id}
-                  className="absolute inset-0 rounded-3xl border-2 border-black bg-white p-6 shadow-[0_14px_34px_rgba(0,0,0,0.16)] md:p-10"
-                  initial={
-                    slideIndex === 0
-                      ? { x: 0, y: 0, opacity: 1 }
-                      : { x: 180, y: 90 + slideIndex * 26, opacity: 0.8, scale: 0.96 }
-                  }
+                  className="absolute inset-0 rounded-[1.65rem] border-2 border-black bg-white p-6 shadow-[0_18px_42px_rgba(0,0,0,0.2)] md:p-10"
+                  initial={false}
                   animate={{
-                    x: isActive ? 0 : isPast ? -70 : 90 + relativeIndex * 14,
-                    y: isActive ? 0 : isPast ? -230 - Math.abs(relativeIndex) * 28 : relativeIndex * 38,
-                    scale: isActive ? 1 : isPast ? 0.94 : Math.max(0.9, 1 - relativeIndex * 0.03),
-                    opacity: isActive ? 1 : isPast ? 0.25 : Math.max(0.5, 1 - relativeIndex * 0.12),
-                    zIndex: 120 - Math.abs(relativeIndex),
-                    rotateX: isActive ? 0 : isPast ? 7 : -6,
-                    rotateY: isActive ? 0 : isPast ? -8 : 8,
+                    x: isActive ? 0 : isPast ? -36 - depth * 8 : 120 + relative * 26,
+                    y: isActive ? 0 : isPast ? -180 - depth * 34 : 28 + relative * 18,
+                    scale: isActive ? 1 : isPast ? 0.92 - depth * 0.015 : 0.97 - depth * 0.02,
+                    opacity: isActive ? 1 : isPast ? 0.12 : 0.92 - depth * 0.12,
+                    rotateX: prefersReducedMotion ? 0 : isActive ? 0 : isPast ? 8 : -6,
+                    rotateY: prefersReducedMotion ? 0 : isActive ? 0 : isPast ? -6 : 10,
+                    zIndex: 120 - depth,
                   }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={
+                    prefersReducedMotion
+                      ? { duration: 0.12 }
+                      : { type: "spring", stiffness: 170, damping: 22, mass: 0.7 }
+                  }
                   style={{ transformStyle: "preserve-3d" }}
                 >
                   <p className="section-kicker">{slide.kicker}</p>
-                  <h1 className="hero-title mt-6">{slide.title}</h1>
+                  <h1 className="hero-title mt-5">{slide.title}</h1>
                   <p className="mt-6 max-w-3xl text-lg font-medium">{slide.description}</p>
 
                   {slideIndex === 0 ? (
-                    <div className="mt-8 flex flex-wrap gap-4">
+                    <div className="mt-8">
                       <Button href="/sidlee">Open SIDLEE page</Button>
                     </div>
                   ) : null}
@@ -128,11 +136,11 @@ export default function HomeSlides() {
             })}
           </div>
 
-          <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-xs font-bold uppercase tracking-wider opacity-70 md:bottom-8 md:left-8 md:right-8">
+          <div className="absolute bottom-5 left-6 right-6 flex items-center justify-between text-xs font-bold uppercase tracking-wider opacity-70 md:bottom-8 md:left-8 md:right-8">
             <span>
               {index + 1} / {slides.length}
             </span>
-            <span>Scroll to move floating deck</span>
+            <span>Scroll to move deck</span>
           </div>
         </section>
       </div>
