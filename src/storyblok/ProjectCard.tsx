@@ -68,7 +68,7 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
       <h3 className="relative text-2xl font-black leading-tight">{blok.name}</h3>
       <p className="relative mt-3 text-base font-medium opacity-90">{blok.description}</p>
       <motion.div
-        className="relative mt-4 inline-block rounded-full border-2 border-black bg-zinc-100 px-3 py-1 text-xs font-bold uppercase tracking-wide"
+        className="project-card-stack relative mt-4 inline-block rounded-full border-2 border-black bg-zinc-100 px-3 py-1 text-xs font-bold uppercase tracking-wide"
         transition={{ duration: 0.22, ease: "easeOut" }}
         whileHover={{ scale: 1.05, y: -1 }}
       >

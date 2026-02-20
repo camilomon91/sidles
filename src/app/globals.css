@@ -216,6 +216,14 @@ html:not([data-brutal]) .project-card-media-overlay {
   mix-blend-mode: multiply;
 }
 
+
+html[data-brutal="on"] .project-card-stack {
+  color: #0b1227 !important;
+  background: #87e6ff !important;
+  border-color: #63d5ff !important;
+  box-shadow: 0 0 0 1px rgba(99, 213, 255, 0.25), 0 0 16px rgba(8, 18, 58, 0.25);
+}
+
 html[data-brutal="on"] .project-card-media {
   filter: hue-rotate(178deg) saturate(1.7) brightness(0.62) contrast(1.28);
 }
