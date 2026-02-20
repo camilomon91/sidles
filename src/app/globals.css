@@ -123,7 +123,6 @@ html[data-brutal="on"] body {
   --panel: #0b1227;
   --muted-panel: #121c39;
   --border: #63d5ff;
-  filter: saturate(1.16) contrast(1.06);
 }
 
 html[data-brutal="on"] .site-texture {
@@ -190,4 +189,42 @@ html[data-brutal="on"] a:hover {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+.project-card-media {
+  transition: filter 320ms ease;
+}
+
+.project-card-media-overlay {
+  transition: background 320ms ease, opacity 320ms ease;
+}
+
+html[data-brutal="off"] .project-card-media,
+html:not([data-brutal]) .project-card-media {
+  filter: sepia(0.36) saturate(0.78) hue-rotate(-10deg) brightness(1.02) contrast(0.95);
+}
+
+html[data-brutal="off"] .project-card-root:hover .project-card-media,
+html:not([data-brutal]) .project-card-root:hover .project-card-media {
+  filter: sepia(0.2) saturate(0.9) hue-rotate(-4deg) brightness(1.05) contrast(1);
+}
+
+html[data-brutal="off"] .project-card-media-overlay,
+html:not([data-brutal]) .project-card-media-overlay {
+  background: linear-gradient(145deg, rgba(245, 224, 193, 0.26), rgba(214, 191, 156, 0.18));
+  mix-blend-mode: multiply;
+}
+
+html[data-brutal="on"] .project-card-media {
+  filter: hue-rotate(178deg) saturate(1.7) brightness(0.62) contrast(1.28);
+}
+
+html[data-brutal="on"] .project-card-root:hover .project-card-media {
+  filter: hue-rotate(182deg) saturate(1.95) brightness(0.7) contrast(1.2);
+}
+
+html[data-brutal="on"] .project-card-media-overlay {
+  background: linear-gradient(145deg, rgba(8, 18, 58, 0.7), rgba(0, 230, 255, 0.22));
+  mix-blend-mode: screen;
 }

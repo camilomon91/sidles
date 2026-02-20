@@ -10,7 +10,7 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
     <motion.a
       {...storyblokEditable(blok)}
       href={blok.link?.url || "/sidlee/contact"}
-      className="group relative block min-h-44 overflow-hidden rounded-3xl border-2 border-black bg-white p-6 shadow-[8px_8px_0_0_#111] focus-visible:outline-2 focus-visible:outline-offset-2"
+      className="project-card-root group relative block min-h-44 overflow-hidden rounded-3xl border-2 border-black bg-white p-6 shadow-[8px_8px_0_0_#111] focus-visible:outline-2 focus-visible:outline-offset-2"
       initial={{ y: 0, rotate: 0 }}
       transition={{ duration: 0.22, ease: "easeOut" }}
       whileHover={{ y: -6, rotate: -0.35, boxShadow: "14px 14px 0 0 #111" }}
@@ -25,20 +25,15 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
       />
 
       {blok.image?.filename ? (
-        <motion.div
-          className="relative mb-5 overflow-hidden rounded-2xl border-2 border-black"
-          initial={{ filter: "grayscale(45%) contrast(135%) saturate(70%) sepia(20%)" }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          whileHover={{ filter: "grayscale(10%) contrast(110%) saturate(100%) sepia(5%)", scale: 1.02 }}
-        >
+        <motion.div className="project-card-media relative mb-5 overflow-hidden rounded-2xl border-2 border-black" whileHover={{ scale: 1.02 }}>
           <Image
             alt={blok.image.alt || `${blok.name || "Project"} image`}
-            className="h-48 w-full object-cover"
+            className="project-card-image h-48 w-full object-cover"
             height={384}
             src={blok.image.filename}
             width={640}
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/15 mix-blend-overlay" />
+          <div className="project-card-media-overlay pointer-events-none absolute inset-0" />
         </motion.div>
       ) : null}
 
