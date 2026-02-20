@@ -192,31 +192,6 @@ html[data-brutal="on"] a:hover {
 }
 
 
-.project-card-media {
-  transition: filter 320ms ease;
-}
-
-.project-card-media-overlay {
-  transition: background 320ms ease, opacity 320ms ease;
-}
-
-html[data-brutal="off"] .project-card-media,
-html:not([data-brutal]) .project-card-media {
-  filter: sepia(0.36) saturate(0.78) hue-rotate(-10deg) brightness(1.02) contrast(0.95);
-}
-
-html[data-brutal="off"] .project-card-root:hover .project-card-media,
-html:not([data-brutal]) .project-card-root:hover .project-card-media {
-  filter: sepia(0.2) saturate(0.9) hue-rotate(-4deg) brightness(1.05) contrast(1);
-}
-
-html[data-brutal="off"] .project-card-media-overlay,
-html:not([data-brutal]) .project-card-media-overlay {
-  background: linear-gradient(145deg, rgba(245, 224, 193, 0.26), rgba(214, 191, 156, 0.18));
-  mix-blend-mode: multiply;
-}
-
-
 html[data-brutal="on"] .project-card-stack {
   color: #0b1227 !important;
   background: #87e6ff !important;
@@ -224,15 +199,3 @@ html[data-brutal="on"] .project-card-stack {
   box-shadow: 0 0 0 1px rgba(99, 213, 255, 0.25), 0 0 16px rgba(8, 18, 58, 0.25);
 }
 
-html[data-brutal="on"] .project-card-media {
-  filter: hue-rotate(178deg) saturate(1.7) brightness(0.62) contrast(1.28);
-}
-
-html[data-brutal="on"] .project-card-root:hover .project-card-media {
-  filter: hue-rotate(182deg) saturate(1.95) brightness(0.7) contrast(1.2);
-}
-
-html[data-brutal="on"] .project-card-media-overlay {
-  background: linear-gradient(145deg, rgba(8, 18, 58, 0.7), rgba(0, 230, 255, 0.22));
-  mix-blend-mode: screen;
-}

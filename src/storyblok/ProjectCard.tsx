@@ -56,12 +56,11 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
         <motion.div className="project-card-media relative mb-5 overflow-hidden rounded-2xl border-2 border-black" whileHover={{ scale: 1.02 }}>
           <Image
             alt={blok.image.alt || `${blok.name || "Project"} image`}
-            className="project-card-image h-48 w-full object-cover"
+            className="project-card-image h-auto w-full object-contain"
             height={384}
             src={blok.image.filename}
             width={640}
           />
-          <div className="project-card-media-overlay pointer-events-none absolute inset-0" />
         </motion.div>
       ) : null}
 
