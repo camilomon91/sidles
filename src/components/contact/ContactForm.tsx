@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 
 type FieldErrors = Partial<Record<"email" | "message", string[]>>;
@@ -72,11 +73,8 @@ export default function ContactForm() {
       const nextFieldErrors = (data?.error?.fieldErrors || {}) as FieldErrors;
       setFieldErrors(nextFieldErrors);
 
-      if (nextFieldErrors.email?.length) {
-        emailRef.current?.focus();
-      } else if (nextFieldErrors.message?.length) {
-        messageRef.current?.focus();
-      }
+      if (nextFieldErrors.email?.length) emailRef.current?.focus();
+      else if (nextFieldErrors.message?.length) messageRef.current?.focus();
       return;
     }
 
@@ -86,7 +84,15 @@ export default function ContactForm() {
   }
 
   return (
-    <form noValidate onSubmit={onSubmit} className="contactForm" aria-live="polite">
+    <motion.form
+      noValidate
+      onSubmit={onSubmit}
+      className="contactForm"
+      aria-live="polite"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45 }}
+    >
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
 
       <div className="field">
@@ -100,6 +106,7 @@ export default function ContactForm() {
           onBlur={(event) => setClientFieldError("email", event.target.value)}
           aria-invalid={Boolean(fieldErrors.email?.length)}
           aria-describedby={fieldErrors.email?.length ? "email-error" : undefined}
+          placeholder="you@domain.com"
         />
         {fieldErrors.email?.length ? (
           <p id="email-error" className="errorText">
@@ -118,6 +125,7 @@ export default function ContactForm() {
           onBlur={(event) => setClientFieldError("message", event.target.value)}
           aria-invalid={Boolean(fieldErrors.message?.length)}
           aria-describedby={fieldErrors.message?.length ? "message-error" : undefined}
+          placeholder="Tell me about your project, constraints, and objective."
         />
         {fieldErrors.message?.length ? (
           <p id="message-error" className="errorText">
@@ -132,6 +140,6 @@ export default function ContactForm() {
 
       {status === "ok" && <p className="successText">Sent ✅</p>}
       {status === "error" && <p className="errorText">{errorMessage}</p>}
-    </form>
+    </motion.form>
   );
 }
