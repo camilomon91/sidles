@@ -250,3 +250,60 @@ li {
   line-height: 1.1;
   max-width: 22ch;
 }
+
+.carouselViewport {
+  position: relative;
+  min-height: 420px;
+  border-radius: 1.25rem;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: #0b0f1a;
+}
+
+.carouselBase,
+.carouselCover {
+  position: absolute;
+  inset: 0;
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+  display: grid;
+  align-content: center;
+  gap: 0.7rem;
+}
+
+.carouselBase {
+  z-index: 1;
+  background: linear-gradient(130deg, rgba(16, 20, 32, 0.95), rgba(8, 11, 20, 0.96));
+}
+
+.carouselCover {
+  z-index: 2;
+  background: linear-gradient(130deg, rgba(26, 33, 52, 0.96), rgba(15, 19, 30, 0.97));
+  box-shadow: -20px 0 35px rgba(0, 0, 0, 0.28);
+}
+
+.carouselBase h3,
+.carouselCover h3 {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 2.7rem);
+  line-height: 1.1;
+  max-width: 22ch;
+}
+
+.carouselBase p,
+.carouselCover p {
+  margin: 0;
+  max-width: 60ch;
+}
+
+.carouselActions {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.carouselMeta {
+  color: var(--text-muted);
+  font-weight: 700;
+}

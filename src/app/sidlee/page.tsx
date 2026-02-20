@@ -1,77 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
-const horizontalPanels = [
+const slides = [
   {
-    title: "01 — Discover",
-    text: "Break the brief into audience signals, business constraints, and measurable actions.",
+    kicker: "01 — Discover",
+    title: "Decode the brief before touching code.",
+    body: "Map goals, constraints, and user tension first so every implementation decision has strategic intent.",
   },
   {
-    title: "02 — Concept",
-    text: "Shape a creative direction that can pitch well and still survive technical realities.",
+    kicker: "02 — Concept",
+    title: "Design an idea that can survive production.",
+    body: "Strong art direction is paired with realistic architecture so the concept remains bold at launch.",
   },
   {
-    title: "03 — Build",
-    text: "Ship front-end and back-end in parallel with quality checks and collaboration rituals.",
+    kicker: "03 — Build",
+    title: "Ship front-end and back-end in one rhythm.",
+    body: "Progressive integration, resilient APIs, and QA checkpoints keep pace high without sacrificing quality.",
   },
   {
-    title: "04 — Ship + Learn",
-    text: "Validate cross-device behavior, monitor outcomes, and iterate based on real feedback.",
+    kicker: "04 — Iterate",
+    title: "Measure impact, then sharpen the work.",
+    body: "Post-launch learnings become the next sprint input, keeping the product alive and useful.",
   },
 ] as const;
 
-function OverlapPanelItem({
-  title,
-  text,
-  scrollYProgress,
-  index,
-}: {
-  title: string;
-  text: string;
-  scrollYProgress: MotionValue<number>;
-  index: number;
-}) {
-  const start = index / horizontalPanels.length;
-  const end = start + 0.35;
-  const x = useTransform(scrollYProgress, [start, end], ["105%", "0%"]);
-  const opacity = useTransform(scrollYProgress, [start, end], [0.35, 1]);
-
-  return (
-    <div className="overlapSlot">
-      <motion.article className="overlapPanel" style={{ x, opacity, zIndex: 10 + index }}>
-        <p className="eyebrow">{title}</p>
-        <h3>{text}</h3>
-      </motion.article>
-    </div>
-  );
-}
-
-function OverlapHorizontalSections() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
-
-  return (
-    <div ref={ref} className="overlapScroll" aria-label="Horizontal overlap experience">
-      {horizontalPanels.map((panel, index) => (
-        <OverlapPanelItem
-          key={panel.title}
-          title={panel.title}
-          text={panel.text}
-          index={index}
-          scrollYProgress={scrollYProgress}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default function SidleePage() {
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
+
+  function next() {
+    setDirection(1);
+    setIndex((prev) => (prev + 1) % slides.length);
+  }
+
+  function prev() {
+    setDirection(-1);
+    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  }
+
+  const active = slides[index];
+
   return (
     <main className="canvas">
       <section className="shell section">
@@ -79,15 +50,51 @@ export default function SidleePage() {
           CREATIVE EXECUTION
         </motion.p>
         <motion.h1 className="headline" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          Horizontally moving sections that slide in from the right and overlap each other.
+          Slider + overlap transition, built for right-to-left narrative momentum.
         </motion.h1>
         <motion.p className="lede" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-          This interaction mirrors agency momentum: each phase arrives with force, stacks over the previous one, and
-          pushes the narrative forward while you scroll.
+          The viewport stays fixed while pages change in layers. The incoming slide starts off-screen on the right,
+          then covers the previous one with motion + z-index.
         </motion.p>
       </section>
 
-      <OverlapHorizontalSections />
+      <section className="shell section" aria-label="Overlap carousel demo">
+        <div className="carouselViewport">
+          <div className="carouselBase" aria-live="polite">
+            <p className="eyebrow">{active.kicker}</p>
+            <h3>{active.title}</h3>
+            <p>{active.body}</p>
+          </div>
+
+          <AnimatePresence custom={direction} mode="wait">
+            <motion.article
+              key={index}
+              className="carouselCover"
+              custom={direction}
+              initial={{ x: direction > 0 ? "100%" : "-100%", opacity: 0.75 }}
+              animate={{ x: "0%", opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="eyebrow">{active.kicker}</p>
+              <h3>{active.title}</h3>
+              <p>{active.body}</p>
+            </motion.article>
+          </AnimatePresence>
+        </div>
+
+        <div className="carouselActions">
+          <button type="button" className="cta cta-ghost" onClick={prev}>
+            Previous
+          </button>
+          <p className="carouselMeta">
+            {index + 1} / {slides.length}
+          </p>
+          <button type="button" className="cta cta-primary" onClick={next}>
+            Next
+          </button>
+        </div>
+      </section>
 
       <section className="shell section" aria-label="Call to action">
         <h2 className="sectionTitle">Want this mindset on your next brief?</h2>
