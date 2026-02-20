@@ -93,7 +93,7 @@ export default function HomeSlides() {
   return (
     <main className="site-texture flex h-dvh items-center py-8">
       <div className="page-container w-full">
-        <section className="relative h-[560px] overflow-hidden rounded-[2rem] border-2 border-black bg-zinc-100/70 p-4 md:p-6">
+        <section className="relative h-[560px] overflow-hidden">
           <div className="relative h-full w-full" style={{ perspective: "1200px" }}>
             {slides.map((slide, slideIndex) => {
               const relative = slideIndex - index;
@@ -104,7 +104,7 @@ export default function HomeSlides() {
               return (
                 <motion.article
                   key={slide.id}
-                  className="absolute inset-0 rounded-[1.65rem] border-2 border-black bg-white p-6 shadow-[0_18px_42px_rgba(0,0,0,0.2)] md:p-10"
+                  className="absolute inset-4 rounded-[1.65rem] border-2 border-black bg-white p-6 shadow-[0_18px_42px_rgba(0,0,0,0.2)] md:inset-6 md:p-10"
                   initial={false}
                   animate={{
                     x: isActive ? 0 : isPast ? -36 - depth * 8 : 120 + relative * 26,
@@ -135,14 +135,14 @@ export default function HomeSlides() {
               );
             })}
           </div>
-
-          <div className="absolute bottom-5 left-6 right-6 flex items-center justify-between text-xs font-bold uppercase tracking-wider opacity-70 md:bottom-8 md:left-8 md:right-8">
-            <span>
-              {index + 1} / {slides.length}
-            </span>
-            <span>Scroll to move deck</span>
-          </div>
         </section>
+
+        <div className="mt-5 flex items-center justify-between px-4 text-xs font-bold uppercase tracking-wider opacity-70 md:px-6">
+          <span>
+            {index + 1} / {slides.length}
+          </span>
+          <span>Scroll to move deck</span>
+        </div>
       </div>
     </main>
   );
