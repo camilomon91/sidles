@@ -145,6 +145,11 @@ html[data-brutal="on"] article {
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
+html[data-brutal="on"] .bg-white {
+  background: linear-gradient(160deg, rgba(12, 20, 44, 0.96), rgba(8, 14, 31, 0.94)) !important;
+  border-color: var(--border) !important;
+}
+
 html[data-brutal="on"] h1,
 html[data-brutal="on"] h2,
 html[data-brutal="on"] h3,
