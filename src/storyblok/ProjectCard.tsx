@@ -28,7 +28,7 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
         <motion.div transition={{ duration: 0.25, ease: "easeOut" }} whileHover={{ scale: 1.015 }}>
           <Image
             alt={blok.image.alt || `${blok.name || "Project"} image`}
-            className="mb-5 h-48 w-full rounded-2xl border-2 border-black object-cover"
+            className="mb-5 h-48 w-full rounded-2xl border-2 border-black object-cover brightness-95 contrast-125 saturate-[0.85] sepia-[0.08] transition-[filter] duration-300 group-hover:brightness-100 group-hover:saturate-100"
             height={384}
             src={blok.image.filename}
             width={640}
