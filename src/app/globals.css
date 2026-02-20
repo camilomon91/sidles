@@ -90,17 +90,17 @@ textarea {
 }
 
 .motion-enter {
-  animation: fade-up 550ms ease-out both;
+  animation: fade-up 250ms ease-out both;
 }
 
 .animate-fade-up {
-  animation: fade-up 450ms ease-out both;
+  animation: fade-up 200ms ease-out both;
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(5px);
   }
   to {
     opacity: 1;
