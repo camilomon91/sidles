@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import Button from "@/components/ui/Button";
 
@@ -63,62 +63,65 @@ export default function HomeSlides() {
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
       if (locked) return;
-      if (Math.abs(event.deltaY) < 12) return;
+      if (Math.abs(event.deltaY) < 10) return;
+
+      const nextIndex = event.deltaY > 0 ? Math.min(index + 1, slides.length - 1) : Math.max(index - 1, 0);
+      if (nextIndex === index) return;
 
       locked = true;
-      if (event.deltaY > 0) {
-        setDirection(1);
-        setIndex((value) => Math.min(value + 1, slides.length - 1));
-      } else {
-        setDirection(-1);
-        setIndex((value) => Math.max(value - 1, 0));
-      }
+      setDirection(event.deltaY > 0 ? 1 : -1);
+      setIndex(nextIndex);
 
       window.setTimeout(() => {
         locked = false;
-      }, 500);
+      }, 560);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [slides.length]);
-
-  const slide = slides[index];
+  }, [index, slides.length]);
 
   return (
     <main className="site-texture flex h-dvh items-center py-8">
       <div className="page-container w-full">
-        <section className="section-space relative overflow-hidden border-2 border-black bg-white p-6 md:p-10">
-          <p className="section-kicker">{slide.kicker}</p>
-
-          <div className="mt-6 min-h-[280px] md:min-h-[320px]">
-            <AnimatePresence custom={direction} mode="wait">
-              <motion.div
+        <section
+          className="section-space relative overflow-hidden border-2 border-black bg-white p-0"
+          style={{ perspective: "1400px" }}
+        >
+          <motion.div
+            className="flex w-full"
+            animate={{ x: `-${index * 100}%`, rotateY: direction > 0 ? -2.5 : 2.5 }}
+            transition={{ x: { duration: 0.55, ease: [0.22, 1, 0.36, 1] }, rotateY: { duration: 0.28 } }}
+            onAnimationComplete={() => setDirection(1)}
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            {slides.map((slide, slideIndex) => (
+              <article
                 key={slide.id}
-                custom={direction}
-                initial={{ opacity: 0, x: direction > 0 ? 140 : -140 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction > 0 ? -100 : 100 }}
-                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="relative w-full shrink-0 p-6 md:p-10"
+                style={{ transform: `translateZ(${slideIndex === index ? 18 : -14}px) scale(${slideIndex === index ? 1 : 0.97})` }}
               >
-                <h1 className="hero-title">{slide.title}</h1>
+                <p className="section-kicker">{slide.kicker}</p>
+                <h1 className="hero-title mt-6">{slide.title}</h1>
                 <p className="mt-6 max-w-3xl text-lg font-medium">{slide.description}</p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Button href="/sidlee">Open SIDLEE page</Button>
-            <Button href="/sidlee/contact" variant="ghost">
-              Open contact form
-            </Button>
-          </div>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <Button href="/sidlee">Open SIDLEE page</Button>
+                  <Button href="/sidlee/contact" variant="ghost">
+                    Open contact form
+                  </Button>
+                </div>
+              </article>
+            ))}
+          </motion.div>
 
-          <div className="mt-8 flex items-center justify-between text-xs font-bold uppercase tracking-wider opacity-70">
+          <div className="pointer-events-none absolute inset-0 border-x-8 border-white/70" />
+
+          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-bold uppercase tracking-wider opacity-70 md:left-10 md:right-10">
             <span>
               {index + 1} / {slides.length}
             </span>
-            <span>Scroll to switch slide</span>
+            <span>Scroll to move carousel</span>
           </div>
         </section>
       </div>
