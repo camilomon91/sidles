@@ -55,6 +55,25 @@ Create `.env.local`:
 NEXT_PUBLIC_STORYBLOK_TOKEN=your_storyblok_token
 ```
 
+## Contact form delivery setup
+
+The contact form posts to `/api/contact`, and the API now sends email through [Resend](https://resend.com).
+
+Add these variables in your deployment environment (and in `.env.local` for local testing):
+
+```bash
+RESEND_API_KEY=re_xxx
+CONTACT_TO_EMAIL=you@yourdomain.com
+CONTACT_FROM_EMAIL=Portfolio Contact <noreply@yourdomain.com>
+```
+
+Notes:
+- `CONTACT_TO_EMAIL` is where you will receive messages.
+- `CONTACT_FROM_EMAIL` must be a sender that your Resend account/domain is allowed to use.
+- The sender should be on a verified domain in Resend; sandbox/default domains are limited.
+
+After setting env vars, restart the app and submit `/sidlee/contact`.
+
 ## Run
 
 ```bash

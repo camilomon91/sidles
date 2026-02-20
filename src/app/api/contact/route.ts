@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { validateContactInput, type ApiError } from "@/lib/contact";
+import { sendContactEmail } from "@/lib/contact-delivery";
 
 function jsonError(error: ApiError["error"], status: number) {
   return NextResponse.json(
@@ -53,8 +54,17 @@ export async function POST(req: Request) {
     return jsonError(validated.error, validated.error.code === "SPAM_DETECTED" ? 400 : 422);
   }
 
-  // In real life: send to email provider / queue.
-  // Avoid logging sensitive full payload.
+  const delivery = await sendContactEmail(validated.data);
+
+  if (!delivery.ok) {
+    return jsonError(
+      {
+        code: delivery.code,
+        message: delivery.message,
+      },
+      delivery.code === "MISCONFIGURED" ? 503 : 502,
+    );
+  }
 
   return NextResponse.json(
     { ok: true },
