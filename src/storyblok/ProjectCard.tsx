@@ -25,14 +25,20 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
       />
 
       {blok.image?.filename ? (
-        <motion.div transition={{ duration: 0.25, ease: "easeOut" }} whileHover={{ scale: 1.015 }}>
+        <motion.div
+          className="relative mb-5 overflow-hidden rounded-2xl border-2 border-black"
+          initial={{ filter: "grayscale(45%) contrast(135%) saturate(70%) sepia(20%)" }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          whileHover={{ filter: "grayscale(10%) contrast(110%) saturate(100%) sepia(5%)", scale: 1.02 }}
+        >
           <Image
             alt={blok.image.alt || `${blok.name || "Project"} image`}
-            className="mb-5 h-48 w-full rounded-2xl border-2 border-black object-cover brightness-95 contrast-125 saturate-[0.85] sepia-[0.08] transition-[filter] duration-300 group-hover:brightness-100 group-hover:saturate-100"
+            className="h-48 w-full object-cover"
             height={384}
             src={blok.image.filename}
             width={640}
           />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/15 mix-blend-overlay" />
         </motion.div>
       ) : null}
 
