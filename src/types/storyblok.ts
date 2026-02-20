@@ -18,6 +18,7 @@ export type ProjectCardBlok = {
   description?: string;
   stack?: string;
   link?: { url?: string };
+  image?: StoryblokAsset;
 };
 
 export type SectionBlok = {
