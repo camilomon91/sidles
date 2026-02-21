@@ -83,11 +83,7 @@ export default function ContactForm() {
         return;
       }
 
-<<<<<<< HEAD
-      event.currentTarget.reset();
-=======
       formElement.reset();
->>>>>>> codex/fix-button-text-for-successful-email-send-wmplut
       setFieldErrors({});
       setStatus("ok");
     } catch {
