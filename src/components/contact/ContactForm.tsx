@@ -86,8 +86,11 @@ export default function ContactForm() {
     setStatus("ok");
   }
 
-  async function onCopyEmail() {
-    await navigator.clipboard.writeText("hello@sidlee.dev");
+  async function onCopyMessage() {
+    const message = messageRef.current?.value?.trim();
+    if (!message) return;
+
+    await navigator.clipboard.writeText(message);
     setCopyState("copied");
     setTimeout(() => setCopyState("idle"), 1500);
   }
@@ -96,10 +99,10 @@ export default function ContactForm() {
     <div className="mt-8 grid gap-5">
       <button
         type="button"
-        onClick={onCopyEmail}
+        onClick={onCopyMessage}
         className="min-h-11 w-fit rounded-2xl border-2 border-black bg-white px-4 py-2 text-xs font-bold uppercase tracking-wide transition active:scale-95 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2"
       >
-        Copy email
+        Copy message
       </button>
       {copyState === "copied" ? <p className="text-sm font-bold">Copied to clipboard ✅</p> : null}
 
