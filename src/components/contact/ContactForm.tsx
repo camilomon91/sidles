@@ -165,7 +165,7 @@ export default function ContactForm() {
           {status === "loading" ? "Sending..." : "Send message"}
         </button>
 
-        {status === "ok" && <p className="animate-fade-up text-base font-bold">Sent. ✅ I&apos;ll reply soon.</p>}
+        {status === "ok" && <p className="animate-fade-up text-base font-bold">Sent. I&apos;ll reply soon.</p>}
         {status === "error" && <p className="text-base font-semibold text-red-700">{errorMessage}</p>}
       </form>
     </div>
