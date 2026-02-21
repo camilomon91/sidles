@@ -41,7 +41,8 @@ export default function ContactForm() {
     setStatus("loading");
     setErrorMessage("");
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const payload = {
       email: String(form.get("email") || ""),
       message: String(form.get("message") || ""),
@@ -82,7 +83,11 @@ export default function ContactForm() {
         return;
       }
 
+<<<<<<< HEAD
       event.currentTarget.reset();
+=======
+      formElement.reset();
+>>>>>>> codex/fix-button-text-for-successful-email-send-wmplut
       setFieldErrors({});
       setStatus("ok");
     } catch {
