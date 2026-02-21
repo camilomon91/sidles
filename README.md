@@ -82,3 +82,15 @@ npm run dev
 ```
 
 Open `http://localhost:3000`.
+
+
+## Storyblok Visual Editor on Vercel
+
+Storyblok does not accept `http` preview URLs for hosted sites.
+
+Set your **Preview URL** and **Real path** to HTTPS, for example:
+
+- Preview URL: `https://camilomontero.vercel.app`
+- Real path: `/sidlee`
+
+With this app, opening `/` now redirects to `/sidlee`, so either URL will land on the Storyblok page.
