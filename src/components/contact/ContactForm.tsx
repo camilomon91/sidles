@@ -59,31 +59,36 @@ export default function ContactForm() {
       return;
     }
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    const data = await res.json();
+      const data = await res.json().catch(() => null);
 
-    if (!res.ok) {
-      setStatus("error");
-      setErrorMessage(data?.error?.message || "Something went wrong.");
-      const nextFieldErrors = (data?.error?.fieldErrors || {}) as FieldErrors;
-      setFieldErrors(nextFieldErrors);
+      if (!res.ok) {
+        setStatus("error");
+        setErrorMessage(data?.error?.message || "Something went wrong.");
+        const nextFieldErrors = (data?.error?.fieldErrors || {}) as FieldErrors;
+        setFieldErrors(nextFieldErrors);
 
-      if (nextFieldErrors.email?.length) {
-        emailRef.current?.focus();
-      } else if (nextFieldErrors.message?.length) {
-        messageRef.current?.focus();
+        if (nextFieldErrors.email?.length) {
+          emailRef.current?.focus();
+        } else if (nextFieldErrors.message?.length) {
+          messageRef.current?.focus();
+        }
+        return;
       }
-      return;
-    }
 
-    event.currentTarget.reset();
-    setFieldErrors({});
-    setStatus("ok");
+      event.currentTarget.reset();
+      setFieldErrors({});
+      setStatus("ok");
+    } catch {
+      setStatus("error");
+      setErrorMessage("We couldn't send your message. Please try again.");
+    }
   }
 
   async function onCopyMessage() {
