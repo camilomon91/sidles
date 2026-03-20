@@ -2,8 +2,8 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 
-const STORAGE_KEY = "sidlee-aesthetic";
-const THEME_CHANGE_EVENT = "sidlee-theme-change";
+const STORAGE_KEY = "portfolio-aesthetic";
+const THEME_CHANGE_EVENT = "portfolio-theme-change";
 
 type Mode = "clean" | "brutal";
 
@@ -53,9 +53,9 @@ export default function BrutalModeToggle() {
       type="button"
       onClick={onToggle}
       aria-pressed={isBrutal}
-      className="min-h-11 rounded-2xl border-2 border-black bg-white px-4 text-xs font-bold uppercase tracking-wider transition active:scale-95 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2"
+      className="min-h-11 border border-[var(--line-strong)] bg-[color-mix(in_oklch,var(--paper)_72%,var(--paper-soft))] px-4 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-[var(--ink-muted)] shadow-[0_12px_20px_-18px_var(--shadow-hard)] transition-[transform,border-color,background-color,color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-[var(--line)] hover:text-[var(--ink)] active:scale-[0.98]"
     >
-      Aesthetic: {isBrutal ? "Brutal" : "Clean"}
+      Palette: {isBrutal ? "Nocturne" : "Studio"}
     </button>
   );
 }

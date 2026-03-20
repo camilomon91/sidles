@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   NEXT_PUBLIC_STORYBLOK_TOKEN: z.string().min(1).optional(),
+  STORYBLOK_STORY_SLUG: z.string().min(1).optional(),
 });
 
 const envResult = envSchema.safeParse(process.env);

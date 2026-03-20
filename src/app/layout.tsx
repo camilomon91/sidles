@@ -6,15 +6,15 @@ import "./globals.css";
 initStoryblok();
 
 export const metadata: Metadata = {
-  title: "SIDLEE Microsite",
-  description: "Storyblok-powered SIDLEE microsite with contact form",
+  title: "Camilo Montero Portfolio",
+  description: "Storyblok-powered portfolio and contact microsite.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <div className="fixed right-4 top-4 z-50">
+        <div className="theme-toggle-wrap">
           <BrutalModeToggle />
         </div>
         {children}

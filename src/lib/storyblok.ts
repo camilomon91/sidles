@@ -54,7 +54,8 @@ async function fetchStory(version: "published" | "draft") {
     return { ok: false as const, reason: "missing-token" as StoryblokFailureReason };
   }
 
-  const url = new URL("https://api.storyblok.com/v2/cdn/stories/sidlee");
+  const storySlug = env.STORYBLOK_STORY_SLUG || "portfolio";
+  const url = new URL(`https://api.storyblok.com/v2/cdn/stories/${storySlug}`);
   url.searchParams.set("token", env.NEXT_PUBLIC_STORYBLOK_TOKEN);
   url.searchParams.set("version", version);
 
@@ -82,7 +83,7 @@ async function fetchStory(version: "published" | "draft") {
   }
 }
 
-export async function getSidleeStory() {
+export async function getPortfolioStory() {
   const publishedStory = await fetchStory("published");
 
   if (publishedStory.ok) {

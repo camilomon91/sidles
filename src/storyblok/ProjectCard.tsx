@@ -33,12 +33,12 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
   return (
     <motion.a
       {...storyblokEditable(blok)}
-      href={blok.link?.url || "/sidlee/contact"}
-      className="project-card-root group relative block min-h-44 overflow-hidden rounded-3xl border-2 border-black bg-white p-6 shadow-[8px_8px_0_0_#111] focus-visible:outline-2 focus-visible:outline-offset-2"
+      href={blok.link?.url || "/portfolio/contact"}
+      className="project-card-root group relative block min-h-44 overflow-hidden p-6 md:p-7 focus-visible:outline-none"
       initial={{ y: 0, rotate: 0 }}
       style={{ transformPerspective: 900, rotateX, rotateY }}
       transition={{ duration: 0.22, ease: "easeOut" }}
-      whileHover={{ y: -8, rotate: -0.35, boxShadow: "16px 16px 0 0 #111" }}
+      whileHover={{ y: -7, rotate: -0.22, boxShadow: "0 24px 42px -26px rgba(24, 32, 63, 0.58)" }}
       whileTap={{ scale: 0.985 }}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
@@ -53,10 +53,10 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
       />
 
       {blok.image?.filename ? (
-        <motion.div className="project-card-media relative mb-5 overflow-hidden rounded-2xl border-2 border-black" whileHover={{ scale: 1.02 }}>
+        <motion.div className="project-card-media relative mb-5 overflow-hidden" whileHover={{ scale: 1.018 }}>
           <Image
             alt={blok.image.alt || `${blok.name || "Project"} image`}
-            className="project-card-image h-auto w-full object-contain"
+            className="project-card-image h-auto w-full"
             height={384}
             src={blok.image.filename}
             width={640}
@@ -64,10 +64,15 @@ export default function ProjectCard({ blok }: { blok: ProjectCardBlok }) {
         </motion.div>
       ) : null}
 
-      <h3 className="relative text-2xl font-black leading-tight">{blok.name}</h3>
-      <p className="relative mt-3 text-base font-medium opacity-90">{blok.description}</p>
+      <h3
+        className="relative text-[clamp(1.3rem,2.1vw,1.9rem)] leading-tight tracking-[-0.01em]"
+        style={{ fontFamily: "var(--font-app-display), serif", fontWeight: 560 }}
+      >
+        {blok.name}
+      </h3>
+      <p className="relative mt-3 text-[0.99rem] leading-relaxed text-[var(--ink-muted)]">{blok.description}</p>
       <motion.div
-        className="project-card-stack relative mt-4 inline-block rounded-full border-2 border-black bg-zinc-100 px-3 py-1 text-xs font-bold uppercase tracking-wide"
+        className="project-card-stack relative mt-4 inline-flex min-h-9 items-center px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em]"
         transition={{ duration: 0.22, ease: "easeOut" }}
         whileHover={{ scale: 1.05, y: -1 }}
       >

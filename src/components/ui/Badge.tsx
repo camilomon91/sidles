@@ -1,6 +1,6 @@
 export default function Badge({ label }: { label: string }) {
   return (
-    <span className="inline-flex min-h-11 items-center rounded-full border-2 border-black px-4 text-xs font-bold uppercase tracking-wide">
+    <span className="inline-flex min-h-9 items-center border border-[var(--line)] bg-[color-mix(in_oklch,var(--accent-soft)_58%,var(--paper-soft))] px-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-[var(--ink-muted)]">
       {label}
     </span>
   );

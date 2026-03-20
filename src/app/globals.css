@@ -1,18 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f7f2;
-  --foreground: #111111;
-  --panel: #ffffff;
-  --muted-panel: #f3f3f0;
-  --border: #111111;
+  --paper: oklch(97.4% 0.01 86);
+  --paper-strong: oklch(94.8% 0.018 86);
+  --paper-soft: oklch(99% 0.008 92);
+  --ink: oklch(24% 0.03 256);
+  --ink-muted: oklch(43% 0.025 250);
+  --line: oklch(70% 0.05 236 / 0.56);
+  --line-strong: oklch(47% 0.06 238 / 0.92);
+  --accent: oklch(60% 0.16 250);
+  --accent-soft: oklch(87% 0.055 248);
+  --danger: oklch(58% 0.18 29);
+  --ok: oklch(65% 0.16 154);
+  --shadow-soft: oklch(22% 0.02 255 / 0.12);
+  --shadow-hard: oklch(24% 0.03 250 / 0.2);
+  --focus-ring: color-mix(in oklch, var(--accent) 45%, var(--paper));
+  --font-app-sans: "Avenir Next", "Nunito Sans", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-app-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Times New Roman", serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --font-sans: var(--font-app-sans);
+  --font-display: var(--font-app-display);
 }
 
 * {
@@ -23,13 +34,42 @@ html,
 body {
   margin: 0;
   padding: 0;
+  min-height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 520ms ease, color 520ms ease, filter 520ms ease;
+  position: relative;
+  color: var(--ink);
+  font-family: var(--font-app-sans), "Avenir Next", sans-serif;
+  background: var(--paper);
+  transition:
+    background-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::before {
+  background:
+    radial-gradient(circle at 8% 6%, color-mix(in oklch, var(--accent-soft) 46%, transparent), transparent 48%),
+    radial-gradient(circle at 88% 14%, color-mix(in oklch, var(--accent-soft) 32%, transparent), transparent 42%),
+    radial-gradient(circle at 52% 100%, color-mix(in oklch, var(--paper-strong) 70%, transparent), transparent 52%);
+}
+
+body::after {
+  opacity: 0.2;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
 section,
@@ -39,68 +79,212 @@ a,
 input,
 textarea {
   transition:
-    background-color 420ms ease,
-    border-color 420ms ease,
-    color 420ms ease,
-    box-shadow 420ms ease,
-    transform 260ms ease;
+    background-color 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 .page-container {
-  @apply mx-auto w-full max-w-6xl px-6 md:px-10;
-}
-
-.grid-12 {
-  @apply grid grid-cols-1 md:grid-cols-12;
-}
-
-.section-space {
-  @apply py-16 md:py-24;
-}
-
-.section-kicker {
-  @apply text-sm font-black uppercase tracking-[0.2em];
-}
-
-.hero-title {
-  font-size: clamp(2.8rem, 8vw, 7rem);
-  line-height: 0.9;
-  @apply font-black;
-}
-
-.hero-watermark {
-  @apply pointer-events-none absolute -top-3 left-0 select-none text-[12vw] font-black leading-none text-black/5;
-}
-
-.underline-neon {
-  @apply decoration-lime-400 decoration-[0.15em] underline underline-offset-[0.12em];
-}
-
-.stamp {
-  @apply inline-block rounded-full border-2 border-black bg-white px-5 py-4 text-xs font-black uppercase tracking-[0.15em];
-  animation: spin-stamp 11s linear infinite;
+  width: min(100%, 81rem);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 2.8vw, 2.75rem);
 }
 
 .site-texture {
+  position: relative;
   min-height: 100dvh;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-  background-size: 36px 36px;
+  padding-block: clamp(2.5rem, 4vw, 4.2rem) clamp(3rem, 5vw, 5.6rem);
+}
+
+.section-space {
+  padding-block: clamp(2rem, 4vw, 3.8rem);
+}
+
+.section-kicker {
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  font-weight: 620;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.hero-title {
+  font-family: var(--font-app-display), "Iowan Old Style", serif;
+  font-size: clamp(2.4rem, 9vw, 6.8rem);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+}
+
+.studio-sheet {
+  position: relative;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(160deg, var(--paper-soft), var(--paper));
+  box-shadow:
+    0 1px 0 color-mix(in oklch, var(--paper) 70%, transparent),
+    0 24px 50px -34px var(--shadow-soft),
+    0 10px 26px -20px var(--shadow-hard);
+  padding: clamp(1.25rem, 2.6vw, 2.6rem);
+  isolation: isolate;
+}
+
+.studio-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, color-mix(in oklch, var(--accent-soft) 40%, transparent), transparent 44%);
+  opacity: 0.46;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.studio-sheet--muted {
+  background: linear-gradient(145deg, color-mix(in oklch, var(--paper-strong) 70%, var(--paper-soft)), var(--paper));
+}
+
+.studio-note {
+  border-left: 1px solid var(--line-strong);
+  padding-left: clamp(1rem, 2vw, 1.5rem);
+  color: var(--ink-muted);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.78rem;
+  align-items: center;
+}
+
+.hero-frame {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-soft);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--paper) 65%, transparent),
+    0 20px 40px -26px var(--shadow-soft);
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  object-fit: cover;
 }
 
 .motion-enter {
-  animation: fade-up 250ms ease-out both;
+  animation: fade-up 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .animate-fade-up {
-  animation: fade-up 200ms ease-out both;
+  animation: fade-up 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.project-grid {
+  container-type: inline-size;
+}
+
+.project-card-root {
+  border: 1px solid var(--line-strong);
+  background: color-mix(in oklch, var(--paper-soft) 88%, var(--paper));
+  box-shadow:
+    0 1px 0 color-mix(in oklch, var(--paper) 70%, transparent),
+    0 14px 30px -24px var(--shadow-hard);
+}
+
+.project-card-root::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  background: color-mix(in oklch, var(--accent) 55%, var(--paper));
+  transform-origin: left;
+  transform: scaleX(0.36);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card-root:hover::after,
+.project-card-root:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.project-card-media {
+  border: 1px solid var(--line);
+  background: color-mix(in oklch, var(--paper-strong) 65%, var(--paper-soft));
+}
+
+.project-card-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.project-card-stack {
+  border: 1px solid var(--line-strong);
+  background: color-mix(in oklch, var(--accent-soft) 72%, var(--paper-soft));
+  color: color-mix(in oklch, var(--ink) 75%, var(--accent));
+}
+
+.form-field {
+  min-height: 3rem;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in oklch, var(--paper-soft) 82%, var(--paper));
+  padding-inline: 0.95rem;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.form-field[aria-invalid="true"] {
+  border-color: color-mix(in oklch, var(--danger) 52%, var(--line-strong));
+  background: color-mix(in oklch, var(--danger) 8%, var(--paper));
+}
+
+.form-area {
+  min-height: 11.8rem;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in oklch, var(--paper-soft) 82%, var(--paper));
+  padding: 0.95rem;
+  color: var(--ink);
+}
+
+.form-status {
+  border: 1px solid var(--line);
+  background: color-mix(in oklch, var(--paper-soft) 76%, var(--paper));
+  padding: 0.65rem 0.85rem;
+  font-size: 0.94rem;
+  color: var(--ink-muted);
+}
+
+.form-status.is-success {
+  border-color: color-mix(in oklch, var(--ok) 52%, var(--line-strong));
+  background: color-mix(in oklch, var(--ok) 14%, var(--paper));
+  color: color-mix(in oklch, var(--ink) 66%, var(--ok));
+}
+
+.form-status.is-error {
+  border-color: color-mix(in oklch, var(--danger) 45%, var(--line-strong));
+  background: color-mix(in oklch, var(--danger) 12%, var(--paper));
+  color: color-mix(in oklch, var(--ink) 75%, var(--danger));
+}
+
+.theme-toggle-wrap {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 60;
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -108,76 +292,44 @@ textarea {
   }
 }
 
-@keyframes spin-stamp {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 html[data-brutal="on"] body {
-  --background: #050816;
-  --foreground: #eaf4ff;
-  --panel: #0b1227;
-  --muted-panel: #121c39;
-  --border: #63d5ff;
+  --paper: oklch(23.5% 0.03 255);
+  --paper-strong: oklch(26.8% 0.028 252);
+  --paper-soft: oklch(29.6% 0.026 250);
+  --ink: oklch(93% 0.012 252);
+  --ink-muted: oklch(82% 0.02 248);
+  --line: oklch(62% 0.06 249 / 0.38);
+  --line-strong: oklch(76% 0.09 248 / 0.75);
+  --accent: oklch(74% 0.12 205);
+  --accent-soft: oklch(38% 0.08 221);
+  --shadow-soft: oklch(10% 0.01 255 / 0.45);
+  --shadow-hard: oklch(10% 0.02 255 / 0.62);
+  --focus-ring: color-mix(in oklch, var(--accent) 65%, var(--paper));
 }
 
-html[data-brutal="on"] .site-texture {
-  background-color: #050816;
-  background-image:
-    radial-gradient(circle at 20% 10%, rgba(98, 78, 255, 0.24), transparent 35%),
-    radial-gradient(circle at 80% 30%, rgba(0, 206, 255, 0.2), transparent 40%),
-    linear-gradient(rgba(99, 213, 255, 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99, 213, 255, 0.14) 1px, transparent 1px);
-  background-size: auto, auto, 32px 32px, 32px 32px;
+html[data-brutal="on"] body::before {
+  background:
+    radial-gradient(circle at 8% 8%, color-mix(in oklch, var(--accent-soft) 88%, transparent), transparent 45%),
+    radial-gradient(circle at 86% 14%, color-mix(in oklch, var(--accent) 28%, transparent), transparent 46%);
 }
 
-html[data-brutal="on"] section,
-html[data-brutal="on"] article {
-  background: linear-gradient(160deg, rgba(12, 20, 44, 0.96), rgba(8, 14, 31, 0.94)) !important;
-  border-color: var(--border) !important;
-  box-shadow:
-    0 0 0 1px rgba(99, 213, 255, 0.25),
-    0 12px 40px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+html[data-brutal="on"] body::after {
+  opacity: 0.14;
 }
 
-html[data-brutal="on"] h1,
-html[data-brutal="on"] h2,
-html[data-brutal="on"] h3,
-html[data-brutal="on"] p,
-html[data-brutal="on"] label,
-html[data-brutal="on"] li {
-  color: #eaf4ff !important;
+html[data-brutal="on"] .studio-sheet {
+  background: linear-gradient(160deg, var(--paper-soft), var(--paper));
 }
 
 html[data-brutal="on"] .section-kicker {
-  color: #87e6ff !important;
+  color: var(--ink-muted);
 }
 
 html[data-brutal="on"] button,
 html[data-brutal="on"] a,
 html[data-brutal="on"] input,
 html[data-brutal="on"] textarea {
-  color: #eaf4ff !important;
-  border-color: var(--border) !important;
-  background: #132043 !important;
-  box-shadow: 0 0 24px rgba(18, 150, 255, 0.2);
-}
-
-html[data-brutal="on"] button:hover,
-html[data-brutal="on"] a:hover {
-  background: #1a2d5c !important;
-  box-shadow: 0 0 28px rgba(99, 213, 255, 0.35);
-}
-
-@media (max-width: 768px) {
-  .hero-watermark {
-    font-size: 22vw;
-  }
+  color: var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -191,11 +343,8 @@ html[data-brutal="on"] a:hover {
   }
 }
 
-
-html[data-brutal="on"] .project-card-stack {
-  color: #0b1227 !important;
-  background: #87e6ff !important;
-  border-color: #63d5ff !important;
-  box-shadow: 0 0 0 1px rgba(99, 213, 255, 0.25), 0 0 16px rgba(8, 18, 58, 0.25);
+@container (max-width: 35rem) {
+  .project-card-root {
+    padding: 1rem;
+  }
 }
-

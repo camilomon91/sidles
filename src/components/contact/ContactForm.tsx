@@ -96,9 +96,13 @@ export default function ContactForm() {
     const message = messageRef.current?.value?.trim();
     if (!message) return;
 
-    await navigator.clipboard.writeText(message);
-    setCopyState("copied");
-    setTimeout(() => setCopyState("idle"), 1500);
+    try {
+      await navigator.clipboard.writeText(message);
+      setCopyState("copied");
+      setTimeout(() => setCopyState("idle"), 1500);
+    } catch {
+      setCopyState("idle");
+    }
   }
 
   return (
@@ -106,17 +110,17 @@ export default function ContactForm() {
       <button
         type="button"
         onClick={onCopyMessage}
-        className="min-h-11 w-fit rounded-2xl border-2 border-black bg-white px-4 py-2 text-xs font-bold uppercase tracking-wide transition active:scale-95 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="min-h-11 w-fit border border-[var(--line)] bg-transparent px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--ink-muted)] transition-[transform,border-color,color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-[var(--line-strong)] hover:bg-[color-mix(in_oklch,var(--paper-strong)_65%,var(--paper-soft))] hover:text-[var(--ink)] active:scale-[0.985]"
       >
         Copy message
       </button>
-      {copyState === "copied" ? <p className="text-sm font-bold">Copied to clipboard ✅</p> : null}
+      {copyState === "copied" ? <p className="form-status is-success">Copied message to clipboard.</p> : null}
 
       <form noValidate onSubmit={onSubmit} className="grid gap-5" aria-live="polite">
         <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
 
         <div className="grid gap-2">
-          <label htmlFor="email" className="text-sm font-bold uppercase tracking-wide">
+          <label htmlFor="email" className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-muted)]">
             Email
           </label>
           <input
@@ -128,17 +132,17 @@ export default function ContactForm() {
             onBlur={(event) => setClientFieldError("email", event.target.value)}
             aria-invalid={Boolean(fieldErrors.email?.length)}
             aria-describedby={fieldErrors.email?.length ? "email-error" : undefined}
-            className="min-h-12 rounded-2xl border-2 border-black bg-white px-4 text-base focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="form-field"
           />
           {fieldErrors.email?.length ? (
-            <p id="email-error" className="text-sm font-semibold text-red-600">
+            <p id="email-error" className="text-sm font-semibold text-[color-mix(in_oklch,var(--danger)_76%,var(--ink))]">
               {fieldErrors.email[0]}
             </p>
           ) : null}
         </div>
 
         <div className="grid gap-2">
-          <label htmlFor="message" className="text-sm font-bold uppercase tracking-wide">
+          <label htmlFor="message" className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-muted)]">
             Message
           </label>
           <textarea
@@ -149,24 +153,24 @@ export default function ContactForm() {
             onBlur={(event) => setClientFieldError("message", event.target.value)}
             aria-invalid={Boolean(fieldErrors.message?.length)}
             aria-describedby={fieldErrors.message?.length ? "message-error" : undefined}
-            className="min-h-[180px] rounded-2xl border-2 border-black bg-white p-4 text-base focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="form-area"
           />
           {fieldErrors.message?.length ? (
-            <p id="message-error" className="text-sm font-semibold text-red-600">
+            <p id="message-error" className="text-sm font-semibold text-[color-mix(in_oklch,var(--danger)_76%,var(--ink))]">
               {fieldErrors.message[0]}
             </p>
           ) : null}
         </div>
 
         <button
-          className="min-h-12 rounded-2xl border-2 border-black bg-lime-300 px-6 py-3 text-sm font-bold uppercase tracking-wide transition active:scale-95 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#111] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-70"
+          className="min-h-12 border border-[var(--line-strong)] bg-[color-mix(in_oklch,var(--accent-soft)_72%,var(--paper-soft))] px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink)] transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:shadow-[0_16px_24px_-20px_var(--shadow-hard)] active:scale-[0.985] disabled:cursor-not-allowed disabled:opacity-70"
           disabled={status === "loading"}
         >
           {status === "loading" ? "Sending..." : "Send message"}
         </button>
 
-        {status === "ok" && <p className="animate-fade-up text-base font-bold">Sent. I&apos;ll reply soon.</p>}
-        {status === "error" && <p className="text-base font-semibold text-red-700">{errorMessage}</p>}
+        {status === "ok" && <p className="form-status is-success animate-fade-up">Sent. I&apos;ll reply soon.</p>}
+        {status === "error" && <p className="form-status is-error">{errorMessage}</p>}
       </form>
     </div>
   );

@@ -1,6 +1,6 @@
 import Page from "@/storyblok/Page";
-import StaticSidleeFallback from "@/components/StaticSidleeFallback";
-import { getSidleeStory } from "@/lib/storyblok";
+import StaticPortfolioFallback from "@/components/StaticPortfolioFallback";
+import { getPortfolioStory } from "@/lib/storyblok";
 
 function mapFailureReason(reason: string | undefined) {
   switch (reason) {
@@ -19,16 +19,22 @@ function mapFailureReason(reason: string | undefined) {
   }
 }
 
-export default async function SidleePage() {
-  const story = await getSidleeStory();
+export default async function PortfolioPage() {
+  const story = await getPortfolioStory();
 
   if (!story.ok) {
-    return <StaticSidleeFallback reason={mapFailureReason(story.reason)} />;
+    return <StaticPortfolioFallback reason={mapFailureReason(story.reason)} />;
   }
 
   return (
     <main className="site-texture py-16 md:py-20">
       <div className="page-container">
+        <header className="mb-7 flex flex-wrap items-end justify-between gap-3">
+          <p className="section-kicker">PORTFOLIO / STORYBLOK</p>
+          <p className="max-w-xl text-sm leading-relaxed text-[var(--ink-muted)]">
+            Live content from Storyblok, rendered with a custom editorial interface system.
+          </p>
+        </header>
         <Page blok={story.content} />
       </div>
     </main>
