@@ -9,7 +9,7 @@ export default function HomePage() {
             <div>
               <p className="section-kicker">PORTFOLIO STUDIO / HOME</p>
               <h1 id="home-title" className="hero-title mt-3 max-w-4xl">
-                Craft-first websites with story-driven front-end execution.
+                Camilo Montero
               </h1>
               <p className="mt-6 max-w-3xl text-[clamp(1rem,1.4vw,1.18rem)] leading-relaxed text-[var(--ink-muted)]">
                 This portfolio pairs Storyblok flexibility with polished React and Next.js implementation. The goal is
